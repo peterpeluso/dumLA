@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../library/inc/matrix.hpp
+iostream
+-
+
+/Users/peterpeluso/Desktop/dumLA/main/src/main.cpp
+matrix.hpp
+/Users/peterpeluso/Desktop/dumLA/main/src/matrix.hpp
+iostream
+-
+
