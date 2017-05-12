@@ -18,9 +18,7 @@ public:
     void setValue(int m, int n, double val);
 
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& A);
-
-
-	 Matrix& operator =( const Matrix &A);
+    Matrix& operator =( const Matrix &A);
 
 
 };
@@ -31,4 +29,15 @@ Matrix operator *( const Matrix& A, const Matrix& B);
 Matrix operator *( const Matrix& A, const double & scal);
 Matrix operator *(const double & scal, const Matrix& A);
 //#include "matrix.cpp"
+class dim_error : public std::exception
+{
+	virtual const char* what() throw()
+	{
+		return "Dimension error";
+
+	}
+
+}; extern dim_error dim_err; 
+
+
 #endif

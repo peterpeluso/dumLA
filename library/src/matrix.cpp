@@ -3,16 +3,6 @@
 #include "matrix.hpp"
 //#include "excpt.cpp"
 
-class dim_error : public std::exception
-{
-	virtual const char* what() const throw()
-	{
-		return "Wrong dimension for matrices";
-	}
-
-} dim_err;
-
-
 
 Matrix::Matrix(int m, int n)
 {
