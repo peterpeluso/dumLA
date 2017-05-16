@@ -9,9 +9,9 @@ int main()
 
 	Matrix A(2,2);
 	Matrix B(2,2);
-	//A.fill();
+	A.fill();
 
-	std::cout<< A + B << std::endl;
+	std::cout<< A << std::endl;
 
 	//std::cout << x << std::endl;
 	//std::cout<< x * 2 << std::endl;
