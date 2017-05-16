@@ -1,14 +1,23 @@
 #include "matrix.hpp"
+#include "complex.hpp"
 #include <iostream>
 int main()
 {
 
-	Matrix x(2,2);
-	x.accept();
+	//Matrix::Matrix x(2,2);
+	//x.accept();
 
-	 
-	std::cout << x << std::endl;
-	std::cout<< x * 2 << std::endl;
-	std::cout<< 3 * x  << std::endl;
+	Matrix A(2,2);
+	Matrix B(2,2);
+	//A.fill();
+
+	std::cout<< A + B << std::endl;
+
+	//std::cout << x << std::endl;
+	//std::cout<< x * 2 << std::endl;
+	//std::cout<< 3 * x  << std::endl;
+
+
+	
 
 }

@@ -1,3 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(DumLA)
-subdirs(main library)
+add_subdirectory(main) 
+
+enable_testing ()
+
+add_subdirectory(test)
+
+add_test(NAME MyTest COMMAND Test)
