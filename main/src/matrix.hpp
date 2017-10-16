@@ -2,18 +2,19 @@
 #define MATRIX_H
 #include <iostream>
 #include "complex.hpp"
-
+#include <memory>
 
  class Matrix 
  {
  	int n_col, n_row;
  protected:
- 	Complex *arr; 
+ 	std::unique_ptr<Complex[]> arr; 
  	Complex& setArrVal(int i);
  public:
  	Matrix( int m, int n);
  	Matrix (const Matrix& A);
  	Matrix (Matrix&& other); 
+ 	Matrix ();
  	~Matrix();
  	Complex getArrVal(int i) const;
 // 	void accept();

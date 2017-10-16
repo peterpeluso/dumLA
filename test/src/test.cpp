@@ -133,3 +133,23 @@ TEST_CASE("scalar divsion", "[Complex]")
 	REQUIRE(scal2/A == ans2);
 
 }
+TEST_CASE("Ctor test", "[Matrix]")
+{
+	Matrix A(2,2);
+	A(0,0) = 1; 
+	A(0,1) = 1;
+	A(1,0) = 1; 
+	A(1,1) = 1;
+
+	Matrix B(2,2);
+	B(0,0) = 1; 
+	B(0,1) = 1;
+	B(1,0) = 1; 
+	B(1,1) = 1;
+
+	Matrix C;
+	C = std::move(A);
+	REQUIRE(C == B); 
+
+
+}

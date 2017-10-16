@@ -2,19 +2,25 @@
 #define matrix_cpp
 #include "matrix.hpp"
 #include "excpt.cpp"
+#include <memory>
 
+Matrix::Matrix():
+ n_col(0) 
+,n_row(0)
+{
 
+}
 Matrix::Matrix(int m, int n) :
  n_col(n) 
 ,n_row(m)
 {
-	arr = new Complex [n_row * n_col];
+	arr = std::unique_ptr<Complex []>(new Complex [n_row * n_col]);
 }
 Matrix::Matrix (const Matrix& A) :
  n_col(A.numCol())
 ,n_row(A.numRow()) 
 {
-	arr = new Complex [n_row * n_col];
+	arr = std::unique_ptr<Complex []>(new Complex [n_row * n_col]);
 
 	for(int i = 0; i < n_row * n_col; i++)
 	{
@@ -25,17 +31,14 @@ Matrix::Matrix (const Matrix& A) :
 }
 
 Matrix::Matrix(Matrix&& other)
+: arr(std::move(other.arr))
 {
-	arr = other.arr;
     n_row = other.numRow();
     n_col  = other.numCol();
-	other.arr = nullptr;
-
-
 }
 Matrix::~Matrix()
 {
-   delete [] arr; 
+   
 }
 
 
@@ -147,13 +150,12 @@ Matrix& Matrix::operator=(const Matrix & A)
 {
 if( this != &A)	
 {
-
-	delete [] arr; 
+	arr.reset();
 
 	n_col = A.numCol();
 	n_row = A.numRow();
 
-	arr = new Complex  [n_row * n_col];
+	arr = std::unique_ptr<Complex []>(new Complex [n_row * n_col]);
 
 	for(int i = 0; i < n_row * n_col; i++)
 	{
@@ -168,14 +170,9 @@ Matrix& Matrix::operator = (Matrix && other)
 {
 if( this != &other)	
 {
-	arr = other.arr;
+	arr = std::move(other.arr);
 	n_row = other.numRow();
 	n_col = other.numCol();
-
-	 other.arr = nullptr;
-
-
-
 }
 
 	return *this;
