@@ -17,6 +17,7 @@ Complex Complex::imaginaryOnly(float img)
 }
 Complex::Complex(double re)
 {
+	
 	real = re;
 	imaginary =0;
 }

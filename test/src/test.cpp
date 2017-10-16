@@ -3,11 +3,25 @@
 #include "matrix.hpp"
 #include "complex.hpp"
 #include <iostream>
-// TEST_CASE( "Testing size", "[Matrix]" ){
-// 	Matrix A(10, 20); 
-// 	REQUIRE(A.maxCol() == 20);
-// 	REQUIRE(A.maxRow() == 10);
-// }
+TEST_CASE( "Testing addition", "[Matrix]" ){
+	Matrix A(2,2);
+	Matrix B(2,2);
+	Matrix C(2,2); 
+	A(0,0) = Complex(1,2);
+	A(0,1) = Complex(3,-2);
+	A(1,0) = Complex(2,4);
+	A(1,1) = Complex(-2,-1);
+	B(0,0) = Complex(1,1);
+	B(0,1) = Complex(1,1);
+	B(1,0) = Complex(1,1);
+	B(1,1) = Complex(1,1);
+	C(0,0) = Complex(1,2) + Complex(1,1);
+	C(0,1) = Complex(3,-2) + Complex(1,1);
+	C(1,0) = Complex(2,4) + Complex(1,1);
+	C(1,1) = Complex(-2,-1) + Complex(1,1); 
+	REQUIRE(A + B  == C);
+
+}
 
 TEST_CASE("Testing static member ctor", "[Complex]")
 {

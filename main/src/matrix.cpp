@@ -4,22 +4,16 @@
 #include "excpt.cpp"
 
 
-Matrix::Matrix(int m, int n)
+Matrix::Matrix(int m, int n) :
+ n_col(n) 
+,n_row(m)
 {
-	n_col = n;
-	n_row = m; 
 	arr = new Complex [n_row * n_col];
-
-	arr[0] = Complex(1,1);
-	arr[1] = Complex(2,2);
-	arr[2] = Complex(-1,-1);
-	arr[3] = Complex(-2,-2);
-
 }
-Matrix::Matrix (const Matrix& A)
+Matrix::Matrix (const Matrix& A) :
+ n_col(A.numCol())
+,n_row(A.numRow()) 
 {
-	n_col = A.numCol();
-	n_row = A.numRow(); 
 	arr = new Complex [n_row * n_col];
 
 	for(int i = 0; i < n_row * n_col; i++)
@@ -43,23 +37,6 @@ Matrix::~Matrix()
 {
    delete [] arr; 
 }
-
-
-// void Matrix::accept()
-// {
-// 	for(int i = 0; i < n_row; i++)
-// 	{
-// 		std:: cout << "row " << i + 1 << " :" << std::endl;
-// 		for(int j = 0; j <  n_col; j++)
-// 		{	
-// 			std::cin >> p[i][j];
-// 		}
-// 	}
-	
-// }
-
-
-
 
 
 
@@ -88,8 +65,7 @@ Complex Matrix::operator()(int m, int n)  const
 }
 Complex& Matrix::operator()(int m, int n)
 {
-	m = m-1;
-	n = n-1;
+
 	return arr[(m * numRow()) + n];
 }
 
@@ -118,10 +94,10 @@ std::ostream& operator<<(std::ostream& os,  const Matrix& A)
 }
 
 
-Matrix operator+( const Matrix& A, const Matrix& B)
+Matrix Matrix::operator+( const Matrix& A)
 {
 
-	    if( A.numRow() != B.numRow() || A.numCol() != B.numCol() )
+	    if( n_row != A.numRow() || n_col != A.numCol() )
         {
 			 //throw dim_err;
 	    }
@@ -132,40 +108,40 @@ Matrix operator+( const Matrix& A, const Matrix& B)
 
 	for(int i = 0; i < (tmp.numCol() * tmp.numCol()); i++)
 	{
-		val = A.getArrVal(i) + B.getArrVal(i);
+		val = arr[i] + A.getArrVal(i);
 		tmp.arr[i] = val;
 	}
 
 	return tmp; 
 }
 
-// Matrix operator*( const Matrix& A, const Matrix & B)
-// {
+Matrix operator*( const Matrix& A, const Matrix & B)
+{
 	
-// 	    if( A.maxCol() != B.maxRow() )
-//         {
-// 			//throw dim_error;
-// 	    }
+	    if( A.numCol() != B.numRow() )
+        {
+			//throw dim_error;
+	    }
     
 
-// 	Matrix tmp(A.maxRow(), B.maxCol()); 
-// 	double val; 
+	Matrix tmp(A.numRow(), B.numCol()); 
+	Complex val; 
 
-// 	for(int i = 0; i < A.maxRow(); i++)
-// 	{
-// 		for(int j = 0; j < B.maxCol(); j++)
-// 		{
-// 			for(int k = 0; k < A.maxCol(); k++)
-// 			 val += A.getValue(i,k) * B.getValue(k,j);
+	for(int i = 0; i < A.numRow(); i++)
+	{
+		for(int j = 0; j < B.numCol(); j++)
+		{
+			for(int k = 0; k < A.numCol(); k++)
+			 val = val + (A(i,k) * B(k,j));
 
-// 			 tmp.setValue(i, j, val); 
-// 			 val = 0;
-// 		}
+			 tmp(i, j) = val; 
+			 val = 0;
+		}
 		
-// 	}
+	}
 
-// 	return tmp; 
-// }
+	return tmp; 
+}
 
 Matrix& Matrix::operator=(const Matrix & A)
 {
@@ -205,35 +181,63 @@ if( this != &other)
 	return *this;
 }
 
-// Matrix operator *( const Matrix& A, const double & scal)
-// {
+Matrix Matrix::operator *(const double & scal) const 
+{
 	
 
    
-// 	Matrix tmp(A.maxRow(), A.maxCol()); 
-// 	double val; 
+	Matrix tmp(n_row, n_col); 
+	Complex val; 
 
-// 	for(int i = 0; i < tmp.maxRow(); i++)
-// 	{
-// 		for(int j = 0; j < tmp.maxCol(); j++)
-// 		{
+	for(int i = 0; i < (n_row * n_col); i++)
+	{
 
-// 			 val += A.getValue(i,j) * scal; 
+			 val = arr[i] * scal;
 
-// 			 tmp.setValue(i, j, val); 
-// 			 val = 0;
-// 		}
-		
-// 	}
+			 tmp.setArrVal(i) = val; 
+			 val = 0;
 
-// 	return tmp; 
-// }
+	}
 
-// Matrix operator *(const double & scal, const Matrix& A)
-// {
-// 	return A * scal; 
-// }
+	return tmp; 
+}
 
+Matrix operator *(const double & scal, const Matrix& A)
+{
+	return A * scal; 
+}
+
+bool Matrix::operator== (const Matrix& A) 
+{
+	if( n_col != A.n_col || n_row != A.n_row)
+	{
+		return false;
+	}
+
+	for(int i = 0; i < n_col * n_row; i++)
+	{
+		if(arr[i] != A.arr[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+Matrix Matrix::row(int m)
+{
+	Matrix tmp(1, n_col);
+	int j =0;
+	for(int i = m* n_col; i < (n_col*m) + n_col; i++)
+	{
+		tmp(0,j) = arr[i];
+		j++;
+	}
+
+	return tmp;
+
+}
 
 
 #endif
